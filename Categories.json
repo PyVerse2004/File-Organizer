@@ -1,1 +1,24 @@
-{}
+{
+    "Images": [
+        ".jpg",
+        ".png",
+        ".jpeg"
+    ],
+    "Documents": [
+        ".pdf",
+        ".docx",
+        ".txt"
+    ],
+    "Music": [
+        ".mp3",
+        ".mav"
+    ],
+    "Videos": [
+        ".mp4",
+        ".mkv"
+    ],
+    "Archives": [
+        ".zip",
+        ".rar"
+    ]
+}
