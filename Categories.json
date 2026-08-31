@@ -11,7 +11,7 @@
     ],
     "Music": [
         ".mp3",
-        ".mav"
+        ".wav"
     ],
     "Videos": [
         ".mp4",
@@ -20,5 +20,8 @@
     "Archives": [
         ".zip",
         ".rar"
+    ],
+    "App": [
+        "exe"
     ]
 }
