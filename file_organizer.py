@@ -35,7 +35,9 @@ class FileOrganizer:
                 for x , y in self.category.items():
                     if i.suffix in y:
                         print(x)
-
+                    else:
+                        self.category["Other"].append(i.suffix)
+                self.save_file()
 
     def create_folders(self):
         for category, extensions in self.category.items():
@@ -43,12 +45,15 @@ class FileOrganizer:
             folder.mkdir(exist_ok=True)
 
     def move_file(self):
-           for i in self.f_path.iterdir():
-                if i.is_file():
-                    for x , y in self.category.items():
-                        if i.suffix in y:
-                            dst = self.f_path / x
-                            shutil.move(i , dst)
+        for i in self.f_path.iterdir():
+            if i.is_file():
+                for x , y in self.category.items():
+                    if i.suffix in y:
+                        dst = self.f_path / x
+                        shutil.move(i , dst)
+                    # else:
+                    #     dst = self.f_path / "Other"
+                    #     shutil.move(i , dst)
         
 
 acc = FileOrganizer()
