@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 from pathlib import Path
 
 
@@ -33,7 +34,8 @@ class FileOrganizer:
             if i.is_file():
                 for x , y in self.category.items():
                     if i.suffix in y:
-                        print(x)
+                        dst = self.f_path / x
+                        shutil.move(i , dst)
 
     def create_folders(self):
         for category, extensions in self.category.items():
@@ -41,6 +43,7 @@ class FileOrganizer:
             folder.mkdir(exist_ok=True)
 
 
+        
 
 acc = FileOrganizer()
 
