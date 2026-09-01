@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 
 
-
 class FileOrganizer:
     def __init__(self):
         self.category = {
@@ -19,7 +18,6 @@ class FileOrganizer:
         else:
             self.save_file()
 
-
     def save_file(self):
         with open("Categories.json" , "w") as file:
             json.dump(self.category , file , indent=4)
@@ -32,9 +30,11 @@ class FileOrganizer:
         self.f_path = Path(path)
         
         for i in self.f_path.iterdir():
-            for x , y in self.category.items():
-                if i.suffix in y:
-                    print(x)
+            if i.is_file():
+                for x , y in self.category.items():
+                    if i.suffix in y:
+                        print(x)
+    
 
 
 
