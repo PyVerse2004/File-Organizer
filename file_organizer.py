@@ -11,7 +11,8 @@ class FileOrganizer:
             "Documents" : [".pdf" , ".docx" , ".txt"] , 
             "Music" : [".mp3" , ".wav"] ,
             "Videos" : [".mp4" , ".mkv"] ,
-            "Archives" : [".zip" , ".rar"]
+            "Archives" : [".zip" , ".rar"],
+            "Other" : []
         }
         
         if os.path.exists("Categories.json"):
@@ -35,9 +36,8 @@ class FileOrganizer:
                 for x , y in self.category.items():
                     if i.suffix in y:
                         print(x)
-                    else:
-                        self.category["Other"].append(i.suffix)
-                self.save_file()
+                    # else:
+                    #     self.category["Other"] = [i.suffix]
 
     def create_folders(self):
         for category, extensions in self.category.items():
@@ -47,14 +47,54 @@ class FileOrganizer:
     def move_file(self):
         for i in self.f_path.iterdir():
             if i.is_file():
-                for x , y in self.category.items():
+            
+                found = False
+    
+                for x, y in self.category.items():
+                    if x == "Other":
+                        continue
+                    
                     if i.suffix in y:
-                        dst = self.f_path / x
-                        shutil.move(i , dst)
-                    # else:
-                    #     dst = self.f_path / "Other"
-                    #     shutil.move(i , dst)
-        
+                        dst = self.f_path / x / i.name
+    
+                        if dst.exists():
+                            counter = 1
+    
+                            while True:
+                                new_name = f"{i.stem}_{counter}{i.suffix}"
+                                new_dst = self.f_path / x / new_name
+    
+                                if not new_dst.exists():
+                                    dst = new_dst
+                                    break
+                                
+                                counter += 1
+    
+                        shutil.move(i, dst)
+                        found = True
+                        break
+                    
+                if not found:
+                    if i.suffix not in self.category["Other"]:
+                        self.category["Other"].append(i.suffix)
+                        self.save_file()
+    
+                    dst = self.f_path / "Other" / i.name
+    
+                    if dst.exists():
+                        counter = 1
+    
+                        while True:
+                            new_name = f"{i.stem}_{counter}{i.suffix}"
+                            new_dst = self.f_path / "Other" / new_name
+    
+                            if not new_dst.exists():
+                                dst = new_dst
+                                break
+                            
+                            counter += 1
+    
+                    shutil.move(i, dst)
 
 acc = FileOrganizer()
 acc.folder_path("C:/Users/Sina/Downloads/Documents")
