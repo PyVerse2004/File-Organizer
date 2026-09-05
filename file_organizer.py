@@ -80,18 +80,24 @@ class FileOrganizer:
         elif operation == "copy":
             shutil.copy2(file, destination)
 
-    def process_files(self, operation):
+    def process_files(self, operation, progress_callback = None):
+        files = [
+            file for file in self.f_path.iterdir() if file.is_file()
+        ]
+
+        total = len(files)
         processed = 0
 
-        for file in self.f_path.iterdir():
-            if file.is_file():
-                self.organize_file(file, operation)
-                processed += 1
+        for file in files :
+            self.organize_file(file , operation)
+            processed += 1
 
+            if progress_callback:
+                progress_callback(processed , total)
         return processed
 
-    def move_file(self):
-        return self.process_files("move")
+    def move_file(self , progress_callback = None):
+        return self.process_files("move" , progress_callback)
 
-    def copy_file(self):
-        return self.process_files("copy")
+    def copy_file(self ,  progress_callback = None):
+        return self.process_files("copy" , progress_callback)

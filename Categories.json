@@ -32,6 +32,7 @@
         ".py",
         ".csv",
         ".html",
-        ".json"
+        ".json",
+        ".iso"
     ]
 }
